@@ -1,0 +1,149 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GridSmart - Traffic-Aware Routing</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <div class="sidebar">
+            <div class="logo-container">
+                <h1 class="logo">GRIDSMART</h1>
+                <div class="tagline">Traffic-Aware Routing</div>
+            </div>
+            
+            <div class="panel">
+                <div class="panel-tabs">
+                    <button class="panel-tab active" data-tab="route">Find Route</button>
+                    <button class="panel-tab" data-tab="explore">Explore</button>
+                    <button class="panel-tab" data-tab="settings">Settings</button>
+                </div>
+                
+                <div class="panel-content" id="route-panel">
+                    <h2>Find Optimal Route</h2>
+                    
+                    <div class="location-input">
+                        <label>Starting Location</label>
+                        <div class="input-group">
+                            <input type="text" id="start-location" placeholder="Enter address or landmark">
+                            <button id="search-start"><i class="fas fa-search"></i></button>
+                        </div>
+                        <div class="search-results" id="start-results"></div>
+                        
+                        <div class="selected-location" id="selected-start">
+                            <div class="location-name"></div>
+                            <button class="location-clear"><i class="fas fa-times"></i></button>
+                        </div>
+                    </div>
+                    
+                    <div class="location-input">
+                        <label>Destination</label>
+                        <div class="input-group">
+                            <input type="text" id="end-location" placeholder="Enter address or landmark">
+                            <button id="search-end"><i class="fas fa-search"></i></button>
+                        </div>
+                        <div class="search-results" id="end-results"></div>
+                        
+                        <div class="selected-location" id="selected-end">
+                            <div class="location-name"></div>
+                            <button class="location-clear"><i class="fas fa-times"></i></button>
+                        </div>
+                    </div>
+                    
+                    <div class="algorithm-select">
+                        <label>Routing Algorithm</label>
+                        <div class="toggle-container">
+                            <label class="toggle">
+                                <input type="checkbox" id="algorithm-toggle" checked>
+                                <span class="toggle-slider"></span>
+                                <span class="toggle-label" data-on="A*" data-off="Dijkstra"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <button id="find-route" class="btn btn-primary">Find Best Route</button>
+                </div>
+                
+                <div class="panel-content hidden" id="explore-panel">
+                    <h2>Explore Map Areas</h2>
+                    
+                    <div class="map-areas">
+                        <div class="area-grid">
+                            <button class="area-btn" data-direction="NW">NW</button>
+                            <button class="area-btn" data-direction="N">N</button>
+                            <button class="area-btn" data-direction="NE">NE</button>
+                            <button class="area-btn" data-direction="W">W</button>
+                            <button class="area-btn" data-direction="C">Center</button>
+                            <button class="area-btn" data-direction="E">E</button>
+                            <button class="area-btn" data-direction="SW">SW</button>
+                            <button class="area-btn" data-direction="S">S</button>
+                            <button class="area-btn" data-direction="SE">SE</button>
+                        </div>
+                    </div>
+                    
+                    <div class="search-results scrollable" id="area-results"></div>
+                </div>
+                
+                <div class="panel-content hidden" id="settings-panel">
+                    <h2>Traffic Settings</h2>
+                    
+                    <div class="setting-group">
+                        <label>Traffic Data</label>
+                        <button id="update-traffic" class="btn btn-secondary">Update Traffic Now</button>
+                    </div>
+                    
+                    <div class="setting-group">
+                        <label>Map Visualization</label>
+                        <button id="view-traffic-map" class="btn btn-secondary">View Traffic Map</button>
+                    </div>
+                    
+                    <div class="system-info">
+                        <div class="info-item">
+                            <span class="label">City:</span>
+                            <span id="city-name">Loading...</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">Intersections:</span>
+                            <span id="intersection-count">Loading...</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">Last Traffic Update:</span>
+                            <span id="last-update">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="content">
+            <div id="map"></div>
+            
+            <div class="route-info hidden" id="route-info">
+                <div class="route-summary">
+                    <div class="route-metric">
+                        <div class="metric-value" id="route-time">--</div>
+                        <div class="metric-label">Minutes</div>
+                    </div>
+                    <div class="route-metric">
+                        <div class="metric-value" id="route-distance">--</div>
+                        <div class="metric-label">Kilometers</div>
+                    </div>
+                </div>
+                
+                <div class="directions scrollable" id="directions">
+                    <!-- Directions will be populated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

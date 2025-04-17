@@ -1,0 +1,18 @@
+# config/config.yaml
+map:
+  city: "Tempe, AZ"
+  network_type: "drive"
+  simplify: true
+
+traffic:
+  provider: "tomtom" # Options: "tomtom", "here", "mapbox"
+  api_key: "" # Add your API key here
+  update_interval: 300 # Update traffic every 5 minutes (in seconds)
+
+routing:
+  default_algorithm: "a_star" # Options: "dijkstra", "a_star"
+  default_travel_mode: "car" # Future support for different modes
+
+visualization:
+  default_map_zoom: 14
+  show_traffic_colors: true
